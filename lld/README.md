@@ -1,5 +1,9 @@
 # Low-level design: show objects, invariants and extension points
 
+## Worked examples
+
+- [Rate limiter: from interface to thread-safe code](token-bucket-rate-limiter.md) — invariants, monotonic clock, atomic check-and-consume, with [runnable Java](../src/main/java/dev/fieldguide/TokenBucket.java).
+
 ## Interview sequence
 
 1. Clarify actors and operations, constraints, thread safety, persistence and performance.
