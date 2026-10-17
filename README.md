@@ -2,7 +2,6 @@
 
 > **Interview-ready notes you can actually use.** Java 11 · DSA patterns · System design · SQL · AWS · production reliability · behavioral storytelling.
 
-[![Java 11 CI](https://github.com/BhagyashriT/java-backend-interview-handbook/actions/workflows/java.yml/badge.svg)](https://github.com/BhagyashriT/java-backend-interview-handbook/actions/workflows/java.yml)
 ![Java](https://img.shields.io/badge/Java-11-orange) ![License](https://img.shields.io/badge/license-MIT-blue) ![No paid tools](https://img.shields.io/badge/study_site-free-brightgreen)
 
 **Maintained by [Bhagyashri Thorat](https://github.com/BhagyashriT)** · [Engineering portfolio](https://bhagyashrit.github.io/)
