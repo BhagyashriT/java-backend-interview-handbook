@@ -2,6 +2,8 @@
 
 The most convincing stories are **true**, specific, appropriately scoped, and explain your **individual contribution** without claiming team outcomes as solely yours.
 
+- [My 90-second stories](stories.md) — drafted from my resume; bracketed notes mark details to verify before interviews.
+
 ## How interviewers score this
 
 They're listening for: scope of ownership, technical depth under follow-ups, data-driven decisions, conflict handled with evidence, and honest reflection. A story that crumbles at "why didn't you do X instead?" scores worse than a smaller story told with real tradeoffs. (This was the Paramount feedback: stay concrete on ingestion/storage/retrieval choices and scale numbers.)
