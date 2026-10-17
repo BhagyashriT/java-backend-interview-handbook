@@ -49,4 +49,21 @@ Choose worker count from CPU vs blocking workload. Bound concurrency **and** que
 4. Can your rate limiter oversubscribe under concurrent traffic? (identify lock or CAS protecting shared tokens)
 5. What happens when the consumer is slower than the producer? (queues grow; enforce backpressure)
 
+### Follow-up answers — say them aloud
+
+**1. Why doesn't `volatile` fix `count++`?**
+“`volatile` gives me visibility and ordering of the read and the write separately. But `count++` is three steps — read, add, write — and two threads can read the same value before either writes. `volatile` never made the three steps atomic, so updates get lost. I'd use `AtomicInteger.incrementAndGet()`, which is one CAS-based atomic step.”
+
+**2. `LongAdder` vs `AtomicLong`?**
+“`AtomicLong` gives exact per-operation atomicity — every `incrementAndGet` returns a globally consistent value, but under heavy contention threads hammer the same cache line. `LongAdder` spreads contention across per-thread cells and sums on read, so it's much faster for write-heavy counters like metrics — at the cost that `sum()` is only eventually consistent. Stats and meters: `LongAdder`. A counter whose exact value gates a decision: `AtomicLong` or a lock.”
+
+**3. What if a task throws inside `ExecutorService`?**
+“It depends how I submitted it. With `execute()`, the exception goes to the thread's uncaught-exception handler and the task is silently dead — I might never notice. With `submit()`, the exception is captured in the returned `Future` and rethrown from `get()` wrapped in `ExecutionException` — so it only surfaces if I actually call `get()`. Either way, production code needs explicit error handling: a handler, a wrapper that logs, or always consuming futures.”
+
+**4. Can my rate limiter oversubscribe?**
+“Only if the token check-and-consume isn't atomic. In the [token bucket example](../src/main/java/dev/fieldguide/TokenBucket.java), refill and consume are guarded by the same lock, so two threads can't both see the last token. If I checked tokens outside the lock and decremented inside, or used two separate atomic fields for 'tokens' and 'last refill time', threads could interleave and oversubscribe. One lock (or one atomic state update) around the whole decision is what makes it safe.”
+
+**5. Consumer slower than producer?**
+“An unbounded queue hides the problem until the JVM runs out of memory — that's how a fixed thread pool 'runs out of memory' from the question bank. The fix is backpressure: bound the queue and pick a rejection policy deliberately — `AbortPolicy` to fail fast, `CallerRunsPolicy` to throttle the producer naturally, or a durable queue (Kafka/SQS) when the work must not be lost. The choice depends on whether dropping, slowing, or persisting is acceptable.”
+
 → [JLS 17: Threads and Locks](https://docs.oracle.com/javase/specs/jls/se11/html/jls-17.html)

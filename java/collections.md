@@ -27,11 +27,18 @@ If you require **unique items and stable insertion-order iteration**, `LinkedHas
 
 `LinkedHashMap<>(capacity, 0.75f, true)` maintains access order. Override `removeEldestEntry` to evict when the map grows beyond capacity. This is **not thread-safe** without external coordination. [Executable example](../src/main/java/dev/fieldguide/LruCache.java).
 
-## Common follow-ups
+## Common follow-ups — answered aloud
 
-- Why can `HashMap` degrade? Hash collisions; tree bins can help under certain conditions, but don't claim unconditional O(log n).
-- `ConcurrentHashMap` vs `Collections.synchronizedMap`? Different concurrency strategies/iteration semantics; neither makes multi-step business operations automatically atomic.
-- `computeIfAbsent`? Useful for lazy grouping; avoid side effects that recursively modify the same mapping.
-- Is heap iteration sorted? No; repeatedly `poll` to get priority order, changing the queue.
+**Why can `HashMap` degrade?**
+“Expected O(1) assumes keys spread across buckets. If many keys collide — bad `hashCode`, or an adversarial input — lookups walk a chain. Since Java 8, long chains treeify into red-black trees, which bounds the worst case to O(log n) *per bucket* — but that's a mitigation, not a guarantee of O(log n) overall, and it only kicks in above a threshold with sufficient capacity. The real fix is a good hash function and immutable keys.”
+
+**`ConcurrentHashMap` vs `Collections.synchronizedMap`?**
+“`synchronizedMap` wraps every method in one global lock — simple, but all operations serialize and iteration still needs external synchronization. `ConcurrentHashMap` uses fine-grained locking (per-bin in Java 8+) so concurrent reads and writes scale, and its iterators are weakly consistent instead of fail-fast. Neither makes a multi-step business operation atomic — `if (!map.containsKey(k)) map.put(k, v)` is still a race on both; I need `putIfAbsent` or `compute`.”
+
+**`computeIfAbsent` gotcha?**
+“It's great for lazy grouping — `map.computeIfAbsent(key, k -> new ArrayList<>()).add(v)`. But the mapping function must not modify the same map — doing so can deadlock or throw `IllegalStateException`, because the bin is locked during computation. Keep the function side-effect free and fast.”
+
+**Is `PriorityQueue` iteration sorted?**
+“No. Only the head is guaranteed to be the minimum. The internal array is a heap, not a sorted list — iterating it yields heap order. To get sorted output I repeatedly `poll()`, which destroys the queue. If I need sorted traversal without destruction, I copy the queue or use a `TreeSet`.”
 
 → [Oracle collection API](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/package-summary.html)
