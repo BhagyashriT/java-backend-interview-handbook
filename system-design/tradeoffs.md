@@ -10,6 +10,9 @@
 | Large immutable blobs | Object storage | Metadata indexing, lifecycle policy, upload auth |
 | Many parallel readers | Read replicas | Lag, stale reads, failover complexity |
 | Predictable per-client traffic caps | Atomic rate limiter | Distributed clock/state, fail-open/closed choice |
+| Realtime client updates | WebSockets | Connection state, gateway scale-out, fallback transport |
+| Frequent shard membership changes | Consistent hashing + virtual nodes | Ring management, uneven load without vnodes |
+| Tunable read/write consistency | Quorums (R + W > N) | Higher latency at strict settings, conflict resolution |
 
 ## Common design traps
 

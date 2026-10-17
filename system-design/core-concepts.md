@@ -24,6 +24,14 @@ Queues absorb spikes and decouple services but bring lag, retries, poison messag
 
 During a network partition in a distributed data store, there is a tradeoff between maintaining strong consistency of operations and remaining available for those operations. Normal operation involves other tradeoffs such as latency and consistency; CAP is not a database buying guide.
 
+## Consistent hashing — say it aloud
+
+“When I shard data across N nodes, naive `hash(key) % N` reshuffles nearly every key when N changes. Consistent hashing places nodes and keys on the same ring, so adding or removing a node only remaps the keys adjacent to it — roughly 1/N of the data. Virtual nodes (each physical node appearing many times on the ring) smooth out the distribution when nodes are few or heterogeneous. I'd reach for it when membership changes often: caches, distributed rate limiters, sharded queues.”
+
+## Quorums — say it aloud
+
+“With N replicas, writing to W and reading from R, I get strong consistency when R + W > N, because every read overlaps at least one node that saw the latest write. N=3, W=2, R=2 is the classic setup. Lowering W makes writes fast but risks stale reads; lowering R makes reads fast but risks missing the latest write. Quorums let me tune the latency/consistency tradeoff per operation instead of per system — writes that must be durable get W=3, reads that can be stale get R=1.”
+
 ## Numbers quick reference
 
 - 1 day = 86,400 seconds.
