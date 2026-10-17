@@ -7,6 +7,10 @@
 
 **Maintained by [Bhagyashri Thorat](https://github.com/BhagyashriT)** · [Engineering portfolio](https://bhagyashrit.github.io/)
 
+## 📖 Interactive study site — open this first
+
+**[▶ Open the Backend Field Guide study desk](https://bhagyashrit.github.io/java-backend-interview-handbook/)** — flashcards, searchable revision notes, and progress tracking. Works fully offline; your progress stays in your browser only.
+
 A focused, original, publicly shareable knowledge base for engineers preparing for backend, full-stack, and senior SWE interviews. Emphasis on **explaining tradeoffs out loud**, not memorizing buzzwords.
 
 ## ⚡ Pick your time budget
@@ -18,7 +22,7 @@ A focused, original, publicly shareable knowledge base for engineers preparing f
 | 30 minutes | [Pre-interview checklist](quick-revision/30-minute.md) | Warmup, communication, recall |
 | 7 days | [Seven-day plan](practice/seven-day-plan.md) | Balanced structured revision |
 | Practice questions | [Question bank](practice/question-bank.md) | Prompts + follow-up probes |
-| Flashcards | [Interactive revision site](docs/index.html) | Offline-ready, searchable, progress tracking |
+| Flashcards | [Interactive revision site](https://bhagyashrit.github.io/java-backend-interview-handbook/) | Offline-ready, searchable, progress tracking |
 
 **Online study site** (after enabling Pages for this repo): `https://bhagyashrit.github.io/java-backend-interview-handbook/`.
 
@@ -30,6 +34,7 @@ A focused, original, publicly shareable knowledge base for engineers preparing f
 | **Data structures & algorithms** | Pattern recognition, brute force → optimized Java 11 → dry runs | [DSA index](dsa/README.md) |
 | **System design** | Interview framework, caching, databases, queues, availability, case studies | [Design index](system-design/README.md) |
 | **Backend engineering** | REST, idempotency, SQL, cloud, debugging, reliability, testing | [Backend index](backend/README.md) |
+| **Learning summaries** | Caching, DB scaling, messaging, API design — one-page takeaways | [Learnings index](learnings/README.md) |
 | **Low-level design** | Requirements, abstractions, concurrency, extensibility | [LLD](lld/README.md) |
 | **Communication** | Experience stories, tradeoffs, retrospectives | [Behavioral](behavioral/README.md) |
 | **Executable Java** | Dependency-free Java 11 implementations with test runner | [Examples](src/README.md) |
@@ -61,11 +66,11 @@ CI compiles with `javac --release 11` and runs deterministic tests. These exampl
 - For behavioral questions, rehearse an authentic project story; don't publish confidential employer information.
 - Track genuine understanding, not a cosmetic completion percentage.
 
-## 🌐 Publish the free interactive site
+## 🌐 The interactive study site
 
-See [step-by-step publishing instructions](PUBLISHING.md).
+The study site is **live**: [bhagyashrit.github.io/java-backend-interview-handbook](https://bhagyashrit.github.io/java-backend-interview-handbook/). It is served from the `/docs` folder on `main` via GitHub Pages, works by opening `docs/index.html` locally too (no server or API key), uses local system fonts, and works completely offline. Progress and saved cards are stored in **your browser only**.
 
-Repository → **Settings → Pages → Deploy from a branch → `main` → `/docs` → Save**. The study site works locally by opening `docs/index.html` (no server or API key). The page uses local system fonts and works completely offline. Progress and saved cards are stored in **your browser only**.
+If you fork this repo, publish your own copy with the [step-by-step instructions](PUBLISHING.md): Repository → **Settings → Pages → Deploy from a branch → `main` → `/docs` → Save**.
 
 ## 🔗 Reference shelf
 
