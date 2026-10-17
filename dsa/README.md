@@ -9,3 +9,19 @@
 7. [Executable Java 11 source](../src/README.md).
 
 **Your first sentence:** “A direct approach would be __, which costs __. The repeated work is __, so I'll instead maintain __.”
+
+## Runnable code ↔ notes map
+
+Every example compiles with `javac --release 11` and is covered by `bash scripts/test.sh`:
+
+| Code | Pattern (notes) | Design note it also illustrates |
+|---|---|---|
+| [LongestUniqueSubstring](../src/main/java/dev/fieldguide/LongestUniqueSubstring.java) | Sliding window ([arrays-windows](arrays-windows.md)) | — |
+| [SubarraySumK](../src/main/java/dev/fieldguide/SubarraySumK.java) | Prefix sum + hash map ([arrays-windows](arrays-windows.md)) | — |
+| [LowerBound](../src/main/java/dev/fieldguide/LowerBound.java) | Binary search invariant ([search-intervals-heaps](search-intervals-heaps.md)) | — |
+| [MergeIntervals](../src/main/java/dev/fieldguide/MergeIntervals.java) | Sort + sweep ([search-intervals-heaps](search-intervals-heaps.md)) | — |
+| [TopKFrequent](../src/main/java/dev/fieldguide/TopKFrequent.java) | Bounded heap ([search-intervals-heaps](search-intervals-heaps.md)) | — |
+| [NumberOfIslands](../src/main/java/dev/fieldguide/NumberOfIslands.java) | BFS ([trees-graphs](trees-graphs.md)) | — |
+| [CourseSchedule](../src/main/java/dev/fieldguide/CourseSchedule.java) | Topological sort ([trees-graphs](trees-graphs.md)) | — |
+| [LruCache](../src/main/java/dev/fieldguide/LruCache.java) | Access-order LinkedHashMap ([../java/collections.md](../java/collections.md)) | Cache eviction ([../learnings/caching-strategies.md](../learnings/caching-strategies.md)) |
+| [TokenBucket](../src/main/java/dev/fieldguide/TokenBucket.java) | — | [LLD walkthrough](../lld/token-bucket-rate-limiter.md) · [distributed rate limiter](../system-design/rate-limiter.md) · [concurrency](../java/concurrency.md) |
