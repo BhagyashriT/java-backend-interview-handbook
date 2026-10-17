@@ -583,5 +583,101 @@ window.FIELDGUIDE_CARDS = [
     "answer": "Generalize architecture and describe safely shareable impact qualitatively. Do not publish proprietary diagrams, source, internal names or confidential metrics.",
     "level": "core",
     "ref": "behavioral/README.md"
+  },
+  {
+    "id": "c074",
+    "topic": "System design",
+    "question": "Why doesn't volatile make count++ thread-safe?",
+    "answer": "volatile gives visibility and ordering of the read and write separately, but count++ is read-add-write; two threads can read the same value before either writes. Use AtomicInteger.incrementAndGet for one atomic step.",
+    "level": "core",
+    "ref": "java/concurrency.md"
+  },
+  {
+    "id": "c075",
+    "topic": "System design",
+    "question": "LongAdder vs AtomicLong?",
+    "answer": "AtomicLong gives exact per-operation atomicity but hammers one cache line under contention. LongAdder spreads writes across per-thread cells and sums on read — faster for metrics, at the cost of only eventually consistent reads.",
+    "level": "core",
+    "ref": "java/concurrency.md"
+  },
+  {
+    "id": "c076",
+    "topic": "System design",
+    "question": "A task throws inside an ExecutorService — where does the exception go?",
+    "answer": "With execute(), to the thread's uncaught-exception handler — easily missed. With submit(), captured in the Future and rethrown from get() wrapped in ExecutionException — but only if you call get(). Handle errors explicitly either way.",
+    "level": "core",
+    "ref": "java/concurrency.md"
+  },
+  {
+    "id": "c077",
+    "topic": "System design",
+    "question": "What evidence justifies JVM heap tuning?",
+    "answer": "Frequent full GCs or long pauses correlating with p99 latency in GC logs, heap histograms showing explainable old-gen growth, or OOM heap dumps pointing at a retention path. First rule out a leak: reachable-but-shouldn't-be objects like an unevicted static cache.",
+    "level": "advanced",
+    "ref": "java/jvm-memory.md"
+  },
+  {
+    "id": "c078",
+    "topic": "System design",
+    "question": "Say consistent hashing aloud.",
+    "answer": "Naive hash(key) % N reshuffles nearly every key when N changes. Consistent hashing puts nodes and keys on one ring, so membership changes remap only ~1/N of keys. Virtual nodes smooth distribution. Use when membership changes often: caches, sharded queues.",
+    "level": "core",
+    "ref": "system-design/core-concepts.md"
+  },
+  {
+    "id": "c079",
+    "topic": "System design",
+    "question": "Say quorums aloud.",
+    "answer": "With N replicas, write to W and read from R: R + W > N gives strong consistency because every read overlaps a node with the latest write. N=3, W=2, R=2 is classic. Tune per operation: durable writes get W=3, stale-tolerant reads get R=1.",
+    "level": "core",
+    "ref": "system-design/core-concepts.md"
+  },
+  {
+    "id": "c080",
+    "topic": "System design",
+    "question": "News feed: fan-out on write vs on read?",
+    "answer": "Push (fan-out on write) makes reads a single list lookup but a celebrity post triggers millions of writes. Pull (fan-out on read) keeps writes cheap but reads do N-way merges. Hybrid: push for normal users, pull for celebrities — design for the skewed distribution.",
+    "level": "core",
+    "ref": "system-design/news-feed.md"
+  },
+  {
+    "id": "c081",
+    "topic": "System design",
+    "question": "How do you order chat messages without client clocks?",
+    "answer": "Assign a per-conversation sequence number at write time; clients render by seq_no, not arrival order. Sends carry a client-generated idempotency key so retries are safe; offline devices catch up with since=seq_no.",
+    "level": "core",
+    "ref": "system-design/chat.md"
+  },
+  {
+    "id": "c082",
+    "topic": "System design",
+    "question": "Cache stampede: what is it and two fixes?",
+    "answer": "A hot key expires and many requests miss at once, hammering the DB. Fixes: request coalescing (single-flight) so one request repopulates, probabilistic early refresh, or stale-while-revalidate. Also cache negative results briefly.",
+    "level": "core",
+    "ref": "learnings/caching-strategies.md"
+  },
+  {
+    "id": "c083",
+    "topic": "System design",
+    "question": "Exactly-once delivery end to end: true or trap?",
+    "answer": "Trap. Exactly-once exists only within narrow boundaries (e.g., Kafka transactions between Kafka topics). End to end with external side effects, design for at-least-once with idempotent consumers — dedup keys and unique constraints make duplicates harmless.",
+    "level": "core",
+    "ref": "learnings/messaging-patterns.md"
+  },
+  {
+    "id": "c084",
+    "topic": "System design",
+    "question": "How do you make POST /payments safe to retry?",
+    "answer": "Client sends Idempotency-Key: <uuid>; server stores (key -> result) with a unique constraint and a retention window. A repeated key returns the stored result instead of re-executing. First request wins; keys can't live forever, so name the window.",
+    "level": "core",
+    "ref": "learnings/api-design.md"
+  },
+  {
+    "id": "c085",
+    "topic": "System design",
+    "question": "Why is a token-bucket check-and-consume one atomic step?",
+    "answer": "Refill, compare, and subtract must happen under the same lock (or one atomic update). Split across two critical sections, two threads can both see the last token and oversubscribe. The LLD example keeps it in one synchronized allow().",
+    "level": "core",
+    "ref": "lld/token-bucket-rate-limiter.md"
   }
 ];
